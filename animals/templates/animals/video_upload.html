@@ -1,0 +1,72 @@
+
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+{% block title %} video upload {% endblock title %}
+{% block body %}
+<style>
+  .navbar-nav{
+      margin-left: auto;
+  }
+</style>
+<nav class="navbar navbar-expand-sm navbar-responsive bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Livestock</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/add">Add Animal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'upload_video'%}">Upload Video</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'profile'%}">Profile</a>
+          </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">LOGOUT</a>
+            </li>
+    </ul>
+  </div>
+</div>
+</nav>
+<br>
+<br>
+<div class="container">
+<div class="content-section col-lg-12 col-md-12 col-sm-12 tutorial-style" style="min-height:65vh;">
+    <legend class="border-bottom mb-4">Video Upload<h2 class="account-heading"></h2></legend>
+        <div class="media">
+            <div class="media-body">
+
+                  <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Upload</button>
+                  </form>
+            </div>
+        </div>
+    </form>
+
+     <br><br><br>
+            <ul>
+                {% for video in videos %}
+                   <li>
+
+    <a href="{{ video.video_file.url }}" ><video width="320" height="240" controls>
+        <source src="{{ video.video_file.url }}" type="{{ video.video_file.content_type }}">
+        Your browser does not support the video tag.
+    </video></a><a href="{% url 'video_detail' video_id=video.id %}">{{ video.title }}</a>
+</li>
+                {% empty %}
+                    <li>No videos found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+</div>
+</div>
+</div>
+{% endblock %}
